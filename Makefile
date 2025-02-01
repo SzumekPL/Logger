@@ -3,3 +3,6 @@ all:
 
 run:
 	./logger
+
+clean:
+	rm -f logger
