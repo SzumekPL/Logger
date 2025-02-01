@@ -33,7 +33,7 @@ private:
     std::string logFileNameGenerator( );
     void rotateLogFile();
 
-    unsigned int suffix = 0;
+    uintmax_t maxSizeOfLogFile = 1000; //1KB
 
     std::string lastTimestamp = ""; // Timestamp ostatniego pliku
     unsigned int suffix = 0; // Suffix w razie potrzeby powtorzenia w tej samej minucie
