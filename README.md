@@ -9,5 +9,6 @@
 ✔️ Możliwość zmiany poziomu logowania w trakcie działania. \
 ❌ Bezpieczeństwo wątkowe – kilku wątków może logować jednocześnie.
 
-CI/CD Status 🔨
-![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/c-cpp.yml/badge.svg)
+CI/CD Status 🔨 
+
+Build: ![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/c-cpp.yml/badge.svg)
