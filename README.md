@@ -8,3 +8,6 @@
 ❌ Konfigurowalne formatowanie logów (data, czas, typ logu, wątek). \
 ✔️ Możliwość zmiany poziomu logowania w trakcie działania. \
 ❌ Bezpieczeństwo wątkowe – kilku wątków może logować jednocześnie.
+
+CI/CD Status 🔨
+![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/ci.yml/badge.svg)
