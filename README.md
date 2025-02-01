@@ -10,4 +10,4 @@
 ❌ Bezpieczeństwo wątkowe – kilku wątków może logować jednocześnie.
 
 CI/CD Status 🔨
-![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/c-cpp.yml/badge.svg)
