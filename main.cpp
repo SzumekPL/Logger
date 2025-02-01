@@ -10,5 +10,20 @@ int main() {
     logger.log("Wystąpił błąd krytyczny!", LogLevel::ERROR);
     logger.log("Tryb debugowania", LogLevel::DEBUG);
     
+    logger.log("Start aplikacji", LogLevel::INFO);
+    logger.log("To jest ostrzeżenie!", LogLevel::WARNING);
+    logger.log("Wystąpił błąd krytyczny!", LogLevel::ERROR);
+    logger.log("Tryb debugowania", LogLevel::DEBUG);
+
+    logger.log("Start aplikacji", LogLevel::INFO);
+    logger.log("To jest ostrzeżenie!", LogLevel::WARNING);
+    logger.log("Wystąpił błąd krytyczny!", LogLevel::ERROR);
+    logger.log("Tryb debugowania", LogLevel::DEBUG);
+    
+    logger.log("Start aplikacji", LogLevel::INFO);
+    logger.log("To jest ostrzeżenie!", LogLevel::WARNING);
+    logger.log("Wystąpił błąd krytyczny!", LogLevel::ERROR);
+    logger.log("Tryb debugowania", LogLevel::DEBUG);
+    
     return 0;
 }
