@@ -61,9 +61,12 @@ void Logger::log(const std::string& message, LogLevel level) {
 std::string Logger::logFileNameGenerator()
 {
     std::time_t now = std::time(nullptr);
-    char timestamp[20];
-    std::strftime(timestamp, sizeof(timestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
-    std::string logName = ("Log_" + std::string(timestamp) + "_" + std::to_string(suffix) + ".txt");
+    char currentTimestamp[20];
+    std::strftime(currentTimestamp, sizeof(currentTimestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
+    if(currentTimestamp == lastTimestamp) suffix++;
+    else {suffix = 0; lastTimestamp = currentTimestamp;}
+
+    std::string logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
     return logName;
 }
 

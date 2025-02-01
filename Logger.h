@@ -34,10 +34,13 @@ private:
 
     unsigned int suffix = 0;
 
-    std::string logFilename;
-    std::ofstream logFile;
-    LogLevel logLevel = LogLevel::INFO;
-    std::mutex logMutex;
+    std::string lastTimestamp = ""; // Timestamp ostatniego pliku
+    unsigned int suffix = 0; // Suffix w razie potrzeby powtorzenia w tej samej minucie
+
+    std::string logFilename; // nazwa pliku
+    std::ofstream logFile; // strumień do otwartego pliku
+    LogLevel logLevel = LogLevel::INFO; // poziom zabezpieczeń
+    std::mutex logMutex; // mutex przeciw konfliktą w wielowatkowości
 };
 
 #endif // LOGGER_H
