@@ -72,6 +72,9 @@ std::string Logger::logFileNameGenerator()
     std::time_t now = std::time(nullptr);
     char currentTimestamp[20];
     std::strftime(currentTimestamp, sizeof(currentTimestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
+
+    std::cout << currentTimestamp << " " << lastTimestamp << " " << (currentTimestamp == lastTimestamp) << "\n";
+
     if(currentTimestamp == lastTimestamp) suffix++;
     else {suffix = 0; lastTimestamp = currentTimestamp;}
 
@@ -81,9 +84,9 @@ std::string Logger::logFileNameGenerator()
 
 void Logger::rotateLogFile()
 {
-    unsigned maxSize = 1000; //1KB
-    if(std::filesystem::file_size(std::string("./" +logFilename)) > maxSize)
-    {
+    if (!std::filesystem::exists(logFilename)) {
+        return; // Nie ma pliku do rotacji
+    }
 
         std::string name = logFileNameGenerator();
         std::cout << name;
