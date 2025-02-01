@@ -28,7 +28,13 @@ private:
     ~Logger();
     Logger(const Logger&) = delete;
     Logger& operator=(const Logger&) = delete;
-    
+
+    std::string logFileNameGenerator( );
+    void rotateLogFile();
+
+    unsigned int suffix = 0;
+
+    std::string logFilename;
     std::ofstream logFile;
     LogLevel logLevel = LogLevel::INFO;
     std::mutex logMutex;
