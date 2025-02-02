@@ -10,10 +10,23 @@
 
 // Definiujemy poziomy logowania
 enum class LogLevel {
-    INFO,
-    WARNING,
-    ERROR,
-    DEBUG
+    ALL, //0
+
+    // Log levels only for information
+    DEBUG, // -6
+    SUCCESS, // -5
+    CONFIG,  // -4
+    SECURITY, // -3
+    NETWORK,  // -2
+    RESOURCE, // -1
+
+    // Danger level of logs
+    INFO, //1
+    NOTICE, //2
+    WARNING, //3
+    ERROR, //4
+    CRITICAL, // 5
+    FATAL_ERROR, // 6
 };
 
 class Logger {
