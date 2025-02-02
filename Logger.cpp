@@ -49,9 +49,26 @@ void Logger::setPathToLogDir(const std::string& path)
     }
 }
 
+void Logger::showOnlyOneLevel(bool state, LogLevel level)
+{
+    if(level != logLevel)
+    {
+        setLogLevel(level);
+    }
+
+    onlyOneLevel = state;
+}
+
 void Logger::log(const std::string& message, LogLevel level) {
-    if (level < logLevel) {
-        return;
+    if(onlyOneLevel){
+        if (level != logLevel) {
+            return;
+        }
+    }
+    else{
+        if (level < logLevel) {
+            return;
+        }
     }
 
     std::lock_guard<std::mutex> lock(logMutex);

@@ -24,6 +24,7 @@ public:
     void setLogFile(const std::string& filename);
     void setLogFileSizeLimit(const uintmax_t& size); // size in bytes
     void setPathToLogDir(const std::string& path);
+    void showOnlyOneLevel(bool state, LogLevel level);
 
 private:
     Logger();  // Prywatny konstruktor (Singleton)
@@ -36,6 +37,7 @@ private:
 
     uintmax_t maxSizeOfLogFile = 1000; //1KB
 
+    bool onlyOneLevel = false;
     std::string pathToLogDir = "./";
     unsigned int suffix = 0; // Suffix w razie potrzeby powtorzenia w tej samej minucie
 
