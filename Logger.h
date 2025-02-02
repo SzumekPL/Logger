@@ -23,6 +23,7 @@ public:
     void setLogLevel(LogLevel level);
     void setLogFile(const std::string& filename);
     void setLogFileSizeLimit(const uintmax_t& size); // size in bytes
+    void setPathToLogDir(const std::string& path);
 
 private:
     Logger();  // Prywatny konstruktor (Singleton)

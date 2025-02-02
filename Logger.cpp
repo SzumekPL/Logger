@@ -8,11 +8,6 @@ Logger& Logger::getInstance() {
 }
 
 Logger::Logger() {
-    std::time_t now = std::time(nullptr);
-    char currentTimestamp[20];
-    std::strftime(currentTimestamp, sizeof(currentTimestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
-    lastTimestamp = currentTimestamp;
-
     logFilename = "default_log.txt"; // Domyślna nazwa logów
     setLogFile(logFilename);
 }
@@ -81,12 +76,20 @@ std::string Logger::logFileNameGenerator()
     char currentTimestamp[20];
     std::strftime(currentTimestamp, sizeof(currentTimestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
 
-    std::cout << (currentTimestamp == lastTimestamp) << " " << std::string(currentTimestamp) << " " << lastTimestamp << "\n";
-
-    if(currentTimestamp == lastTimestamp) {suffix++;}
-    else {suffix = 0; lastTimestamp = std::string(currentTimestamp);}
-
     std::string logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
+
+    std::cout << (std::filesystem::exists(pathToLogDir + logName)) << " " << logName << " " << pathToLogDir << "\n";
+
+    if(std::filesystem::exists(pathToLogDir + logName)) 
+    {
+        suffix++; 
+        std::string logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
+    }
+    else 
+    {
+        suffix = 0;
+    }
+
     return logName;
 }
 
@@ -100,7 +103,6 @@ void Logger::rotateLogFile()
         std::string newFilename = logFileNameGenerator();
 
         logFile.close(); // Zamknij plik przed zmianą
-        std::filesystem::rename(logFilename, newFilename); // Przenieś stary plik logów
-        setLogFile(logFilename); // Utwórz nowy log o oryginalnej nazwie
+        setLogFile(newFilename); // Utwórz nowy log o oryginalnej nazwie
     }
 }
