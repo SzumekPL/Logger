@@ -19,7 +19,7 @@ Logger::~Logger() {
 }
 
 void Logger::setLogFile(const std::string& filename) {
-    std::lock_guard<std::mutex> lock(logMutex);
+    //std::lock_guard<std::mutex> lock(logMutex);
     if (logFile.is_open()) {
         logFile.close();
     }
@@ -31,13 +31,32 @@ void Logger::setLogLevel(LogLevel level) {
     logLevel = level;
 }
 
+void Logger::setPathToLogDir(const std::string& path)
+{
+    if(!std::filesystem::exists(path))
+    {
+        try
+        {
+            std::filesystem::create_directory(path);
+        }
+        catch(std::exception& e)
+        {
+            std::cout << "Cannot create directory for logs\nError code: " << e.what(); //cerr narazie jako debug
+        }
+    }
+    else
+    {
+        pathToLogDir = path;
+    }
+}
+
 void Logger::log(const std::string& message, LogLevel level) {
     if (level < logLevel) {
         return;
     }
 
     
-    std::lock_guard<std::mutex> lock(logMutex);
+    //std::lock_guard<std::mutex> lock(logMutex);
     std::time_t now = std::time(nullptr);
     char timestamp[20];
     std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
