@@ -19,7 +19,6 @@ Logger::~Logger() {
 }
 
 void Logger::setLogFile(const std::string& filename) {
-    //std::lock_guard<std::mutex> lock(logMutex);
     if (logFile.is_open()) {
         logFile.close();
     }
@@ -55,8 +54,7 @@ void Logger::log(const std::string& message, LogLevel level) {
         return;
     }
 
-    
-    //std::lock_guard<std::mutex> lock(logMutex);
+    std::lock_guard<std::mutex> lock(logMutex);
     std::time_t now = std::time(nullptr);
     char timestamp[20];
     std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
