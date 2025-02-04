@@ -27,8 +27,11 @@ all:
 	$(CXX) -std=c++17 -Wall -pthread $(SRC) -o $(TARGET)
 
 test: 
-	$(CXX) $(CXXFLAGS) -fprofile-arcs -ftest-coverage $(SRC_TESTS) -o $(TARGET_TESTS) $(GTEST_LIBS) --coverage
+	$(CXX) $(CXXFLAGS) $(SRC_TESTS) -o $(TARGET_TESTS) $(GTEST_LIBS)
 
+coverage:
+	$(CXX) $(CXXFLAGS) -00 -fprofile-arcs -ftest-coverage $(SRC_TESTS) -o $(TARGET_TESTS) $(GTEST_LIBS) --coverage
+	
 run: 
 	./logger.exe
 	
