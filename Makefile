@@ -17,15 +17,22 @@ endif
 #Może warto zrobić flage przy kompilacji zamiast sprawdzać nazwę systemu ?
 
 # Pliki źródłowe i wynikowy program
-SRC = tests/test_logger.cpp Logger.cpp
-TARGET = tests/test_logger.exe
+SRC_TESTS = tests/test_logger.cpp Logger.cpp
+TARGET_TESTS = tests/test_logger.exe
+
+SRC = *.cpp
+TARGET = logger
+
+all:
+	$(CXX) -std=c++17 -Wall -pthread $(SRC) -o $(TARGET)
 
 test: 
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(GTEST_LIBS)
+	$(CXX) $(CXXFLAGS) $(SRC_TESTS) -o $(TARGET_TESTS) $(GTEST_LIBS)
 
 run: 
-	./tests/test_logger.exe
+	./logger.exe
 
 clean:
-	rm -f ./tests/test_logger.exe
+	rm -f ./tests/test_logger
+	rm -f ./logger
 
