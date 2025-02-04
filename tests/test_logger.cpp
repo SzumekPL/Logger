@@ -57,7 +57,7 @@ TEST(LoggerTest, LogLevelFiltering) {
 
     logger.log("Poziom informacji", LogLevel::INFO);
     logger.log("Poziom ostrzezenia", LogLevel::WARNING);
-    logger.log("ERROR", LogLevel::ERROR); // Tylko to powinno być w pliku
+    logger.log("Poziom bledu", LogLevel::ERROR); // Tylko to powinno być w pliku
 
     logger.close();
 
@@ -72,7 +72,7 @@ TEST(LoggerTest, LogLevelFiltering) {
     while (std::getline(logFile, line)) {
         if (line.find("Poziom informacji") != std::string::npos) foundInfo = true;
         if (line.find("Poziom ostrzezenia") != std::string::npos) foundWarning = true;
-        if (line.find("ERROR") != std::string::npos) foundError = true;
+        if (line.find("Poziom bledu") != std::string::npos) foundError = true;
     }
 
     logFile.close();
