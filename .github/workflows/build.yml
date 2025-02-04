@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Build
 
 on:
   push:
@@ -19,3 +19,6 @@ jobs:
     
     - name: Build
       run: make
+  
+  test:
+    name: my-workflow-name
