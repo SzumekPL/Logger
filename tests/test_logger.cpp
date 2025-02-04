@@ -53,18 +53,18 @@ TEST(LoggerTest, LogLevelFiltering) {
     logger.setLogFile("level_test.txt");
     logger.setLogLevel(LogLevel::ERROR);  // Tylko ERROR powinien być logowany
 
-    logger.log("INFO", LogLevel::INFO);
-    logger.log("WARNING", LogLevel::WARNING);
-    logger.log("ERROR", LogLevel::ERROR);
+    logger.log("Poziom informacji", LogLevel::INFO);
+    logger.log("Poziom ostrzezenia", LogLevel::WARNING);
+    logger.log("Poziom bledu", LogLevel::ERROR);
 
     std::ifstream logFile("level_test.txt");
     std::string line;
     bool foundError = false, foundInfo = false, foundWarning = false;
     
     while (std::getline(logFile, line)) {
-        if (line.find("INFO") != std::string::npos) foundInfo = true;
-        if (line.find("WARNING") != std::string::npos) foundWarning = true;
-        if (line.find("ERROR") != std::string::npos) foundError = true;
+        if (line.find("Poziom informacji") != std::string::npos) foundInfo = true;
+        if (line.find("Poziom ostrzezenia") != std::string::npos) foundWarning = true;
+        if (line.find("Poziom bledu") != std::string::npos) foundError = true;
     }
 
     logFile.close();

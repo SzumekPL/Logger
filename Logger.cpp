@@ -123,8 +123,6 @@ std::string Logger::logFileNameGenerator()
 
     std::string logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
 
-    std::cout << (std::filesystem::exists(pathToLogDir + logName)) << " " << logName << " " << pathToLogDir << "\n";
-
     if(std::filesystem::exists(pathToLogDir + logName)) 
     {
         suffix++; 

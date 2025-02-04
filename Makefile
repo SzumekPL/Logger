@@ -41,4 +41,5 @@ run_test:
 clean:
 	rm -f ./tests/test_logger
 	rm -f ./logger
+	rm -f ./tests/*.txt
 
