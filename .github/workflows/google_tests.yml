@@ -20,3 +20,5 @@ jobs:
       run: make test
     - name: run tests
       run: make run_test
+    - name: clean
+      run: make clean
