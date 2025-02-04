@@ -46,3 +46,29 @@ TEST(LoggerTest, LogRotation) {
     EXPECT_TRUE(logFile.good()) << "Plik logów nie został poprawnie utworzony!";
     logFile.close();
 }
+
+// Test 3: Sprawdzenie poziomów logowania
+TEST(LoggerTest, LogLevelFiltering) {
+    Logger& logger = Logger::getInstance();
+    logger.setLogFile("level_test.txt");
+    logger.setLogLevel(LogLevel::ERROR);  // Tylko ERROR powinien być logowany
+
+    logger.log("INFO", LogLevel::INFO);
+    logger.log("WARNING", LogLevel::WARNING);
+    logger.log("ERROR", LogLevel::ERROR);
+
+    std::ifstream logFile("level_test.txt");
+    std::string line;
+    bool foundError = false, foundInfo = false, foundWarning = false;
+    
+    while (std::getline(logFile, line)) {
+        if (line.find("INFO") != std::string::npos) foundInfo = true;
+        if (line.find("WARNING") != std::string::npos) foundWarning = true;
+        if (line.find("ERROR") != std::string::npos) foundError = true;
+    }
+
+    logFile.close();
+    EXPECT_FALSE(foundInfo) << "INFO nie powinno być zapisane!";
+    EXPECT_FALSE(foundWarning) << "WARNING nie powinien być zapisany!";
+    EXPECT_TRUE(foundError) << "ERROR powinien być zapisany!";
+}
