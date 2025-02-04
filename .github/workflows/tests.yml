@@ -1,29 +1,45 @@
-name: Google tests
+name: Google Tests & Coverage
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main  # Uruchamia się na push do głównej gałęzi
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Install gtest manually
-      run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp lib/*.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
-    - uses: actions/checkout@v1
-    - name: make
-      run: make test
-    - name: run tests
-      run: make run_test
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov libgtest-dev gcovr
+          cd /usr/src/gtest
+          sudo cmake CMakeLists.txt
+          sudo make
+          sudo cp lib/*.a /usr/lib
+          sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
+          sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
 
-    - name: Code Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: /tests/test_logger.cpp, Logger.cpp
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_branch_rate: false
-        hide_complexity: true
-        indicators: true
-        output: both
-        thresholds: '60 80'
+      - uses: actions/checkout@v3  # Pobranie kodu repozytorium
+
+      - name: Build tests
+        run: make test
+
+      - name: Run tests
+        run: make run_test
+
+      - name: Generate coverage report
+        run: |
+          lcov --directory . --zerocounters
+          ./tests/test_logger
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info
+          genhtml coverage_filtered.info --output-directory coverage_report
+
+      - name: Deploy coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: coverage_report
