@@ -21,4 +21,5 @@ jobs:
     - name: run tests
       run: make run_test
     - name: clean
+      if: always()
       run: make clean
