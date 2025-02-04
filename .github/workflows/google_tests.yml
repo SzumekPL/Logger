@@ -1,6 +1,7 @@
 name: Google tests
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - tests/**
