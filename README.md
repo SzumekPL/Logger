@@ -11,4 +11,6 @@
 
 CI/CD Status 🔨 
 
-Build: ![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/c-cpp.yml/badge.svg)
+Build: ![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/build.yml/badge.svg)
+
+Tests: ![Tests Status](https://github.com/SzumekPL/Logger/actions/workflows/tests.yml/badge.svg)
