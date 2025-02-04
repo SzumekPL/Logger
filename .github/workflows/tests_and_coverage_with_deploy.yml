@@ -2,7 +2,10 @@ name: Google Tests & Coverage
 
 on:
   workflow_dispatch:
-  
+  push:
+    paths:
+      - tests/**
+      
 jobs:
   build:
     runs-on: ubuntu-latest
