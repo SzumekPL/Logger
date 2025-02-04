@@ -28,11 +28,11 @@ jobs:
 
       - name: Generate coverage report
         run: |
-          lcov --directory . --zerocounters
-          ./tests/test_logger
-          lcov --directory . --capture --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info
-          genhtml coverage_filtered.info --output-directory coverage_report
+         lcov --directory . --zerocounters && \
+           ./tests/test_logger && \
+         lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov --rc geninfo_unexecuted_blocks=1 && \
+         lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info && \
+         genhtml coverage_filtered.info --output-directory coverage_report
 
       - name: Deploy coverage report to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
