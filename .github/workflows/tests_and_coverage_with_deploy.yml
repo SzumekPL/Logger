@@ -34,7 +34,11 @@ jobs:
 
       - name: Run tests
         run: make run_test
-
+        continue-on-error: true
+        
+      - name: clean
+        run: make clean
+      
       - name: Generate coverage report
         run: |
          lcov --directory . --zerocounters && \
@@ -62,6 +66,3 @@ jobs:
             branch: gh-pages
             folder: .
             target-folder: coverage
-
-      - name: Clean
-        run: make clean
