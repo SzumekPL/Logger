@@ -56,11 +56,15 @@ TEST(LoggerTest, LogLevelFiltering) {
 
     logger.log("Poziom informacji", LogLevel::INFO);
     logger.log("Poziom ostrzezenia", LogLevel::WARNING);
-    logger.log("Poziom bledu", LogLevel::ERROR);
+    logger.log("Poziom bledu", LogLevel::ERROR); // Tylko to powinno być w pliku
 
     std::ifstream logFile("level_test.txt");
     std::string line;
     bool foundError = false, foundInfo = false, foundWarning = false;
+    
+    if (!logFile.is_open()) {
+        FAIL() << "Nie udało się otworzyć pliku logu!";
+    }
     
     while (std::getline(logFile, line)) {
         if (line.find("Poziom informacji") != std::string::npos) foundInfo = true;
