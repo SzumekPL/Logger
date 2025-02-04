@@ -37,5 +37,7 @@ jobs:
       - name: Deploy coverage report to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages
-          folder: coverage_report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages  # Gałąź, na którą pushujemy
+          folder: coverage_report  # Katalog z plikami do publikacji
+          clean: true  # Usuwa stare pliki przed publikacją
