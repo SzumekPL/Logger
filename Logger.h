@@ -39,6 +39,8 @@ public:
     void setPathToLogDir(const std::string& path);
     void showOnlyOneLevel(bool state, LogLevel level);
 
+    void close();
+
 private:
     Logger();  // Prywatny konstruktor (Singleton)
     ~Logger();

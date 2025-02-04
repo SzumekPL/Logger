@@ -10,11 +10,16 @@ TEST(LoggerTest, WritesToFile) {
     logger.setLogLevel(LogLevel::INFO);
 
     logger.log("Testowy log INFO", LogLevel::INFO);
+    logger.close();
     
     std::ifstream logFile("test_log.txt");
     std::string line;
     bool found = false;
     
+    if (!logFile.is_open()) {
+        FAIL() << "Nie udało się otworzyć pliku logu!";
+    }
+
     while (std::getline(logFile, line)) {
         if (line.find("Testowy log INFO") != std::string::npos) {
             found = true;

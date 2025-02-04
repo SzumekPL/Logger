@@ -26,6 +26,12 @@ void Logger::setLogFile(const std::string& filename) {
     logFilename = filename;
 }
 
+void Logger::close() {
+    if (logFile.is_open()) {
+        logFile.close();
+    }
+}
+
 void Logger::setLogLevel(LogLevel level) {
     logLevel = level;
 }
