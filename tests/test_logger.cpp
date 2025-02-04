@@ -11,7 +11,7 @@ TEST(LoggerTest, WritesToFile) {
 
     logger.log("Testowy log INFO", LogLevel::INFO);
     logger.close();
-    
+
     std::ifstream logFile("test_log.txt");
     std::string line;
     bool found = false;
@@ -29,4 +29,20 @@ TEST(LoggerTest, WritesToFile) {
 
     logFile.close();
     EXPECT_TRUE(found) << "Nie znaleziono wpisu w logu!";
+}
+
+// Test 2: Sprawdzenie rotacji plików logów
+TEST(LoggerTest, LogRotation) {
+    Logger& logger = Logger::getInstance();
+    logger.setLogFile("rotation_test.txt");
+    logger.setMaxSizeOfLog( 200 ); //size 200bytes
+
+
+    for (int i = 0; i < 5; ++i) {
+        logger.log("Testowy wpis do rotacji", LogLevel::INFO);
+    }
+    
+    std::ifstream logFile("rotation_test.txt");
+    EXPECT_TRUE(logFile.good()) << "Plik logów nie został poprawnie utworzony!";
+    logFile.close();
 }
