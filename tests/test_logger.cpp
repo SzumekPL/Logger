@@ -36,15 +36,16 @@ TEST(LoggerTest, LogRotation) {
     Logger& logger = Logger::getInstance();
     logger.setLogFile("rotation_test.txt");
     logger.setMaxSizeOfLog( 200 ); //size 200bytes
+    logger.setLogLevel(LogLevel::INFO);
 
-
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 100; ++i) {
         logger.log("Testowy wpis do rotacji", LogLevel::INFO);
     }
     
-    std::ifstream logFile("rotation_test.txt");
-    EXPECT_TRUE(logFile.good()) << "Plik logów nie został poprawnie utworzony!";
-    logFile.close();
+    bool changedFile = (logger.currectLogFilename() != "rotation_test.txt");
+
+    EXPECT_TRUE(changedFile) << "Plik logów nie został poprawnie utworzony!";
+    logger.close();
     logger.setMaxSizeOfLog( 10000 ); //size 10kbytes for future tests
 }
 
@@ -56,7 +57,9 @@ TEST(LoggerTest, LogLevelFiltering) {
 
     logger.log("Poziom informacji", LogLevel::INFO);
     logger.log("Poziom ostrzezenia", LogLevel::WARNING);
-    logger.log("Poziom bledu", LogLevel::ERROR); // Tylko to powinno być w pliku
+    logger.log("ERROR", LogLevel::ERROR); // Tylko to powinno być w pliku
+
+    logger.close();
 
     std::ifstream logFile("level_test.txt");
     std::string line;
@@ -65,11 +68,11 @@ TEST(LoggerTest, LogLevelFiltering) {
     if (!logFile.is_open()) {
         FAIL() << "Nie udało się otworzyć pliku logu!";
     }
-    
+
     while (std::getline(logFile, line)) {
         if (line.find("Poziom informacji") != std::string::npos) foundInfo = true;
         if (line.find("Poziom ostrzezenia") != std::string::npos) foundWarning = true;
-        if (line.find("Poziom bledu") != std::string::npos) foundError = true;
+        if (line.find("ERROR") != std::string::npos) foundError = true;
     }
 
     logFile.close();

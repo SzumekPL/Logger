@@ -115,6 +115,11 @@ void Logger::setLogFileSizeLimit(const uintmax_t& size) // size in bytes
     }
 }
 
+std::string Logger::currectLogFilename()
+{
+    return logFilename;
+}
+
 std::string Logger::logFileNameGenerator()
 {
     std::time_t now = std::time(nullptr);

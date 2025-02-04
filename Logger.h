@@ -40,6 +40,8 @@ public:
     void setMaxSizeOfLog(const uintmax_t& size);
     void showOnlyOneLevel(bool state, LogLevel level);
 
+    std::string currectLogFilename(); 
+
     void close();
 
 private:
