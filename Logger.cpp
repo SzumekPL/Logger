@@ -32,6 +32,12 @@ void Logger::close() {
     }
 }
 
+//size on bytes
+void Logger::setMaxSizeOfLog(const uintmax_t& size)
+{
+    maxSizeOfLogFile = size;
+}
+
 void Logger::setLogLevel(LogLevel level) {
     logLevel = level;
 }
