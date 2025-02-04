@@ -13,7 +13,9 @@ CI/CD Status 🔨
 
 Build: ![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/build.yml/badge.svg)
 
-Tests: ![Tests Status](https://github.com/SzumekPL/Logger/actions/workflows/tests.yml/badge.svg)
+Tests: ![Tests Status](https://github.com/SzumekPL/Logger/actions/workflows/Google_tests.yml/badge.svg)
+
+Coverage: ![Coverage %](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FSzumekPL%2FLogger%2Fgh-pages%2Fcoverage%2Fcoverage.json&query=%24.message&label=Coverage&color=%24.color)
 
 TO DO: \
 Wskaznik pokrycia testami \
