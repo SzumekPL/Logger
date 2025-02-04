@@ -86,7 +86,6 @@ void Logger::log(const std::string& message, LogLevel level) {
     
     std::string logMessage = std::string("[") + timestamp + "] " + levelStr + ": " + message + "\n";
     
-    std::cout << logMessage;
     if (logFile.is_open()) {
         logFile << logMessage;
     }
