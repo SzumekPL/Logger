@@ -45,6 +45,7 @@ TEST(LoggerTest, LogRotation) {
     std::ifstream logFile("rotation_test.txt");
     EXPECT_TRUE(logFile.good()) << "Plik logów nie został poprawnie utworzony!";
     logFile.close();
+    logger.setMaxSizeOfLog( 10000 ); //size 10kbytes for future tests
 }
 
 // Test 3: Sprawdzenie poziomów logowania
