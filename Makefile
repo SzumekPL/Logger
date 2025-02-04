@@ -31,6 +31,9 @@ test:
 
 run: 
 	./logger.exe
+	
+run_test:
+	./tests/test_logger
 
 clean:
 	rm -f ./tests/test_logger
