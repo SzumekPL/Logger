@@ -18,7 +18,7 @@ endif
 
 # Pliki źródłowe i wynikowy program
 SRC_TESTS = tests/test_logger.cpp Logger.cpp
-TARGET_TESTS = tests/test_logger.exe
+TARGET_TESTS = tests/test_logger
 
 SRC = *.cpp
 TARGET = logger
