@@ -2,11 +2,7 @@ name: Google Tests & Coverage
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main  # Uruchamia się na push do głównej gałęzi
-  pull_request:
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
