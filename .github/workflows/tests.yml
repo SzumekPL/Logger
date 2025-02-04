@@ -6,6 +6,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # Pozwala na pushowanie do repozytorium
+      pages: write      # Pozwala na zarządzanie GitHub Pages
+      id-token: write   # Potrzebne do autoryzacji GitHub Pages
+  
     steps:
       - name: Install dependencies
         run: |
