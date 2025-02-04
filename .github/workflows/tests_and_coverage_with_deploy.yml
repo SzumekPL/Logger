@@ -36,8 +36,8 @@ jobs:
         run: make run_test
         continue-on-error: true
         
-      - name: clean
-        run: make clean
+      - name: clean txts
+        run: rm -f ./tests/*.txt
       
       - name: Generate coverage report
         run: |
