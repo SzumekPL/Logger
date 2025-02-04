@@ -15,7 +15,7 @@ Build: ![Build Status](https://github.com/SzumekPL/Logger/actions/workflows/buil
 
 Tests: ![Tests Status](https://github.com/SzumekPL/Logger/actions/workflows/tests.yml/badge.svg)
 
-TO DO:
-Wskaznik pokrycia testami
-Napisac testy
+TO DO: \
+Wskaznik pokrycia testami \
+Napisac testy \
 Artefakty / cache żeby nie pobierać za każdym razem gtestow i instalowac
