@@ -47,3 +47,15 @@ jobs:
           branch: gh-pages  # Gałąź, na którą pushujemy
           folder: coverage_report  # Katalog z plikami do publikacji
           clean: true  # Usuwa stare pliki przed publikacją
+          
+      - name: Generate coverage badge
+        run: |
+            COVERAGE=$(lcov --summary coverage_filtered.info | grep "lines" | awk '{print $2}' | tr -d '%')
+            echo "{ \"schemaVersion\": 1, \"label\": \"coverage\", \"message\": \"$COVERAGE%\", \"color\": \"green\" }" > coverage.json
+    
+      - name: Deploy coverage badge
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+            branch: gh-pages
+            folder: .
+            target-folder: coverage
