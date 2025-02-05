@@ -3,6 +3,8 @@
 int main() {
     Logger& logger = Logger::getInstance();
 
+    logger.setLogFile("./xyz.txt");
+
     logger.setLogLevel(LogLevel::INFO);
     logger.log("Ustawiono poziom logowania na INFO 1", LogLevel::INFO);
     logger.log("Start aplikacji 1", LogLevel::INFO);
