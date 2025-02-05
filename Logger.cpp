@@ -18,7 +18,6 @@ Logger::~Logger() {
 
 void Logger::setLogFile(const std::string& filename) {
 
-
     if (logFile.is_open()) {
         logFile.close();
     }
@@ -40,6 +39,7 @@ void Logger::setMaxSizeOfLog(const uintmax_t& size)
 
 void Logger::setLogLevel(LogLevel level) {
     logLevel = level;
+    onlyOneLevel = false;
 }
 
 void Logger::setPathToLogDir(const std::string& path)
@@ -48,7 +48,7 @@ void Logger::setPathToLogDir(const std::string& path)
     {
         try
         {
-            std::filesystem::create_directory(path);
+            std::filesystem::create_directories(path);
         }
         catch(std::exception& e)
         {
@@ -59,14 +59,14 @@ void Logger::setPathToLogDir(const std::string& path)
     pathToLogDir = path;
 }
 
-void Logger::showOnlyOneLevel(bool state, LogLevel level)
+void Logger::showOnlyOneLevel(LogLevel level)
 {
     if(level != logLevel)
     {
         setLogLevel(level);
     }
 
-    onlyOneLevel = state;
+    onlyOneLevel = true;
 }
 
 std::string Logger::getLogLevelString(LogLevel level)

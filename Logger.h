@@ -40,7 +40,7 @@ public:
     void setLogFileSizeLimit(const uintmax_t& size); // size in bytes
     void setPathToLogDir(const std::string& path);
     void setMaxSizeOfLog(const uintmax_t& size);
-    void showOnlyOneLevel(bool state, LogLevel level);
+    void showOnlyOneLevel(LogLevel level);
 
     std::string getLogLevelString(LogLevel level);
 
