@@ -9,6 +9,8 @@
 #include <memory>
 
 // Definiujemy poziomy logowania
+// NIE ZAPOMNIJ PO MODYFIKACJI SPRAWDZIĆ 
+// getLogLevelString() !!
 enum class LogLevel {
     ALL, //0
 
@@ -39,6 +41,8 @@ public:
     void setPathToLogDir(const std::string& path);
     void setMaxSizeOfLog(const uintmax_t& size);
     void showOnlyOneLevel(bool state, LogLevel level);
+
+    std::string getLogLevelString(LogLevel level);
 
     std::string currectLogFilename(); 
 

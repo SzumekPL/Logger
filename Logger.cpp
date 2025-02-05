@@ -71,6 +71,27 @@ void Logger::showOnlyOneLevel(bool state, LogLevel level)
     onlyOneLevel = state;
 }
 
+std::string Logger::getLogLevelString(LogLevel level)
+{
+    std::string result = "Unknown level !!";
+    switch (level) {
+        case LogLevel::DEBUG:       result = "DEBUG"; break;
+        case LogLevel::SUCCESS:     result = "SUCCESS"; break;
+        case LogLevel::CONFIG:      result = "CONFIG"; break;
+        case LogLevel::SECURITY:    result = "SECURITY"; break;
+        case LogLevel::NETWORK:     result = "NETWORK"; break;
+        case LogLevel::RESOURCE:    result = "RESOURCE"; break;
+        case LogLevel::INFO:        result = "INFO"; break;
+        case LogLevel::NOTICE:      result = "NOTICE"; break;
+        case LogLevel::WARNING:     result = "WARNING"; break;
+        case LogLevel::ERROR:       result = "ERROR"; break;
+        case LogLevel::CRITICAL:    result = "CRITICAL"; break;
+        case LogLevel::FATAL_ERROR: result = "FATAL_ERROR"; break;
+    }
+
+    return result;
+}
+
 void Logger::log(const std::string& message, LogLevel level) {
     if(onlyOneLevel){
         if (level != logLevel) {
@@ -88,13 +109,7 @@ void Logger::log(const std::string& message, LogLevel level) {
     char timestamp[20];
     std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
     
-    std::string levelStr;
-    switch (level) {
-        case LogLevel::INFO: levelStr = "INFO"; break;
-        case LogLevel::WARNING: levelStr = "WARNING"; break;
-        case LogLevel::ERROR: levelStr = "ERROR"; break;
-        case LogLevel::DEBUG: levelStr = "DEBUG"; break;
-    }
+    std::string levelStr = getLogLevelString(level);
     
     std::string logMessage = std::string("[") + timestamp + "] " + levelStr + ": " + message + "\n";
     
