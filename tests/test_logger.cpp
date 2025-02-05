@@ -80,3 +80,65 @@ TEST(LoggerTest, LogLevelFiltering) {
     EXPECT_FALSE(foundWarning) << "WARNING nie powinien być zapisany!";
     EXPECT_TRUE(foundError) << "ERROR powinien być zapisany!";
 }
+
+// Test 4: Sprawdzenie czy tworzy nowe foldery
+TEST(LoggerTest, DirPathChanging) {
+    Logger& logger = Logger::getInstance();
+    logger.setPathToLogDir("./test_dir/");
+    logger.setLogFile("dir_log.txt");
+    logger.setLogLevel(LogLevel::INFO);
+
+    logger.log("Testowy log INFO", LogLevel::INFO);
+    logger.close();
+
+    std::ifstream logFile("./test_dir/dir_log.txt");
+    std::string line;
+    bool found = false;
+    
+    if (!logFile.is_open()) {
+        FAIL() << "Nie udało się otworzyć pliku logu!";
+    }
+
+    while (std::getline(logFile, line)) {
+        if (line.find("Testowy log INFO") != std::string::npos) {
+            found = true;
+            break;
+        }
+    }
+
+    logFile.close();
+    EXPECT_TRUE(found) << "Nie znaleziono wpisu w logu!";
+
+    logger.setPathToLogDir("./");
+}
+
+// Test 5: Sprawdzenie zapisu tylko jednego typu
+TEST(LoggerTest, writeOnlyWarning) {
+    Logger& logger = Logger::getInstance();
+    logger.setLogFile("onlyWarning_log.txt");
+    logger.showOnlyOneLevel(true, LogLevel::WARNING);
+
+    logger.log("Testowy log INFO", LogLevel::INFO);
+    logger.log("Testowy log WARNING", LogLevel::WARNING);
+    logger.log("Testowy log CRITICAL", LogLevel::CRITICAL);
+    logger.close();
+
+    std::ifstream logFile("onlyWarning_log.txt");
+    std::string line;
+    
+    if (!logFile.is_open()) {
+        FAIL() << "Nie udało się otworzyć pliku logu!";
+    }
+
+    bool foundInfo = false, foundWarning = false, foundCritical = false;
+    while (std::getline(logFile, line)) {
+        if (line.find("Testowy log INFO") != std::string::npos) foundInfo = true;
+        if (line.find("Testowy log WARNING") != std::string::npos) foundWarning = true;
+        if (line.find("Testowy log CRITICAL") != std::string::npos) foundCritical = true;
+    }
+
+    logFile.close();
+    EXPECT_FALSE(foundInfo) << "INFO nie powinno być zapisane!";
+    EXPECT_FALSE(foundCritical) << "CRITICAL  nie powinno być zapisane!";
+    EXPECT_TRUE(foundWarning) << "WARNING powinien być zapisany!";
+}

@@ -60,6 +60,8 @@ private:
     uintmax_t maxSizeOfLogFile = 1000; //1KB
 
     bool onlyOneLevel = false;
+
+    //change it later to std::filesystem::path
     std::string pathToLogDir = "./";
     unsigned int suffix = 0; // Suffix w razie potrzeby powtorzenia w tej samej minucie
 

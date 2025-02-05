@@ -8,8 +8,6 @@ Logger& Logger::getInstance() {
 }
 
 Logger::Logger() {
-    logFilename = "default_log.txt"; // Domyślna nazwa logów
-    setLogFile(logFilename);
 }
 
 Logger::~Logger() {
@@ -19,10 +17,12 @@ Logger::~Logger() {
 }
 
 void Logger::setLogFile(const std::string& filename) {
+
+
     if (logFile.is_open()) {
         logFile.close();
     }
-    logFile.open(filename, std::ios::app);
+    logFile.open(pathToLogDir + filename, std::ios::app);
     logFilename = filename;
 }
 
@@ -55,10 +55,8 @@ void Logger::setPathToLogDir(const std::string& path)
             std::cout << "Cannot create directory for logs\nError code: " << e.what(); //cerr narazie jako debug
         }
     }
-    else
-    {
-        pathToLogDir = path;
-    }
+
+    pathToLogDir = path;
 }
 
 void Logger::showOnlyOneLevel(bool state, LogLevel level)
@@ -75,6 +73,7 @@ std::string Logger::getLogLevelString(LogLevel level)
 {
     std::string result = "Unknown level !!";
     switch (level) {
+        case LogLevel::ALL:         result = "ALL"; break;
         case LogLevel::DEBUG:       result = "DEBUG"; break;
         case LogLevel::SUCCESS:     result = "SUCCESS"; break;
         case LogLevel::CONFIG:      result = "CONFIG"; break;
@@ -93,7 +92,7 @@ std::string Logger::getLogLevelString(LogLevel level)
 }
 
 void Logger::log(const std::string& message, LogLevel level) {
-    if(onlyOneLevel){
+    if(onlyOneLevel && level != LogLevel::ALL){
         if (level != logLevel) {
             return;
         }
