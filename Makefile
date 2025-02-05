@@ -42,6 +42,5 @@ clean:
 	rm -f ./tests/test_logger
 	rm -f ./logger
 	rm -f ./tests/*.txt
-	rm -f ./test_dir/*
-	rm -rf ./test_dir
+	rm -rf ./tests_dir
 
