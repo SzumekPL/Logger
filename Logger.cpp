@@ -8,6 +8,7 @@ Logger& Logger::getInstance() {
 }
 
 Logger::Logger() {
+    logPattern = "[{time}] {level}: {message}";
 }
 
 Logger::~Logger() {
@@ -69,6 +70,42 @@ void Logger::showOnlyOneLevel(LogLevel level)
     onlyOneLevel = true;
 }
 
+std::string getTimestamp()
+{
+    std::time_t now = std::time(nullptr);
+    char timestamp[20];
+    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    return std::string( timestamp );
+}
+
+void Logger::setLogFormat(std::string pattern)
+{
+    logPattern = pattern;
+}
+
+std::string Logger::replaceToPattern(std::string message, std::string level)
+{
+    std::string result = logPattern;
+    
+    size_t pos = result.find("{time}");
+    if (pos != std::string::npos) {
+        result.replace(pos, 6, getTimestamp());
+    }
+    
+    pos = result.find("{level}");
+    if (pos != std::string::npos) {
+        result.replace(pos, 7, level);
+    }
+
+    pos = result.find("{message}");
+    if (pos != std::string::npos) {
+        result.replace(pos, 9, message);
+    }
+    
+    return result;
+}
+
 std::string Logger::getLogLevelString(LogLevel level)
 {
     std::string result = "Unknown level !!";
@@ -104,14 +141,10 @@ void Logger::log(const std::string& message, LogLevel level) {
             return;
         }
     }
-
-    std::time_t now = std::time(nullptr);
-    char timestamp[20];
-    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
-    
     std::string levelStr = getLogLevelString(level);
+    std::string timestamp = getTimestamp();
     
-    std::string logMessage = std::string("[") + timestamp + "] " + levelStr + ": " + message;
+    std::string logMessage = replaceToPattern(message, levelStr);
     
     if (logFile.is_open()) {
         logFile << logMessage;
@@ -131,16 +164,14 @@ std::string Logger::currectLogFilename()
 
 std::string Logger::logFileNameGenerator()
 {
-    std::time_t now = std::time(nullptr);
-    char currentTimestamp[20];
-    std::strftime(currentTimestamp, sizeof(currentTimestamp), "%Y_%m_%d-%H-%M", std::localtime(&now));
+    std::string timestamp = getTimestamp();
 
-    std::string logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
+    std::string logName = ("Log_" + std::string(timestamp) + "_" + std::to_string(suffix) + ".txt");
 
     if(std::filesystem::exists(pathToLogDir + logName)) 
     {
         suffix++; 
-        logName = ("Log_" + std::string(currentTimestamp) + "_" + std::to_string(suffix) + ".txt");
+        logName = ("Log_" + std::string(timestamp) + "_" + std::to_string(suffix) + ".txt");
     }
     else 
     {

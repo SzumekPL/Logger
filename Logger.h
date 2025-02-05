@@ -41,9 +41,9 @@ public:
     void setPathToLogDir(const std::string& path);
     void setMaxSizeOfLog(const uintmax_t& size);
     void showOnlyOneLevel(LogLevel level);
+    void setLogFormat(std::string pattern);
 
     std::string getLogLevelString(LogLevel level);
-
     std::string currectLogFilename(); 
 
     void close();
@@ -56,6 +56,9 @@ private:
 
     std::string logFileNameGenerator( );
     void rotateLogFile();
+
+    std::string replaceToPattern(std::string message = "", std::string level = "");
+    std::string logPattern;
 
     uintmax_t maxSizeOfLogFile = 1000000; //1MB
 
