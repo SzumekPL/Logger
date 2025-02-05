@@ -120,15 +120,6 @@ void Logger::log(const std::string& message, LogLevel level) {
     rotateLogFile();
 }
 
-void Logger::setLogFileSizeLimit(const uintmax_t& size) // size in bytes
-{
-    if(maxSizeOfLogFile != size) 
-    {
-        maxSizeOfLogFile = size;
-        //std::cout << "Change max size of file to:" << size;
-    }
-}
-
 std::string Logger::currectLogFilename()
 {
     return logFilename;
