@@ -92,6 +92,8 @@ std::string Logger::getLogLevelString(LogLevel level)
 }
 
 void Logger::log(const std::string& message, LogLevel level) {
+
+    std::lock_guard<std::mutex> lock(logMutex);
     if(onlyOneLevel && level != LogLevel::ALL){
         if (level != logLevel) {
             return;
@@ -103,19 +105,21 @@ void Logger::log(const std::string& message, LogLevel level) {
         }
     }
 
-    std::lock_guard<std::mutex> lock(logMutex);
     std::time_t now = std::time(nullptr);
     char timestamp[20];
     std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
     
     std::string levelStr = getLogLevelString(level);
     
-    std::string logMessage = std::string("[") + timestamp + "] " + levelStr + ": " + message + "\n";
+    std::string logMessage = std::string("[") + timestamp + "] " + levelStr + ": " + message;
     
     if (logFile.is_open()) {
         logFile << logMessage;
+        logFile << std::endl;
     }
-    
+    else{
+        std::cout << "I cannot write into file!!!";
+    }
 
     rotateLogFile();
 }
@@ -148,14 +152,27 @@ std::string Logger::logFileNameGenerator()
 
 void Logger::rotateLogFile()
 {
-    if (!std::filesystem::exists(logFilename)) {
+    if (!std::filesystem::exists(pathToLogDir + logFilename)) {
+        std::cout << pathToLogDir + logFilename << "doesnt exist";
         return; // Nie ma pliku do rotacji
     }
 
-    if (std::filesystem::file_size(logFilename) > maxSizeOfLogFile) {
-        std::string newFilename = logFileNameGenerator();
-
-        logFile.close(); // Zamknij plik przed zmianą
-        setLogFile(newFilename); // Utwórz nowy log o oryginalnej nazwie
+    uintmax_t fileSize = 0;
+    try
+    {
+        fileSize = std::filesystem::file_size(pathToLogDir + logFilename);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << '\n';
+    }
+    
+    if (fileSize > 0) 
+    {
+        if(fileSize > maxSizeOfLogFile)
+        {
+            std::string newFilename = logFileNameGenerator();
+            setLogFile(newFilename); // Utwórz nowy log o oryginalnej nazwie
+        }
     }
 }

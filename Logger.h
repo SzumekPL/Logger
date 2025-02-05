@@ -57,7 +57,7 @@ private:
     std::string logFileNameGenerator( );
     void rotateLogFile();
 
-    uintmax_t maxSizeOfLogFile = 1000; //1KB
+    uintmax_t maxSizeOfLogFile = 1000000; //1MB
 
     bool onlyOneLevel = false;
 

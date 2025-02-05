@@ -6,13 +6,17 @@
 // Test 1: Sprawdzenie zapisu do pliku
 TEST(LoggerTest, WritesToFile) {
     Logger& logger = Logger::getInstance();
-    logger.setLogFile("test_log.txt");
+    std::string dirPath = "./tests_dir/test1/";
+    std::string logName = "test_log.txt";
+
+    logger.setPathToLogDir(dirPath);
+    logger.setLogFile(logName);
     logger.setLogLevel(LogLevel::INFO);
 
     logger.log("Testowy log INFO", LogLevel::INFO);
     logger.close();
 
-    std::ifstream logFile("test_log.txt");
+    std::ifstream logFile(dirPath + logName);
     std::string line;
     bool found = false;
     
@@ -73,16 +77,15 @@ TEST(LoggerTest, LogRotation) {
 
     logger.setPathToLogDir(dirPath);
     logger.setLogFile(logName);
-    logger.setMaxSizeOfLog( 200 ); //size 200bytes
-    logger.setLogLevel(LogLevel::INFO);
+    logger.setMaxSizeOfLog(200); //size 4KBytes //default buffor for most systems is 4KB 
+    logger.setLogLevel(LogLevel::ALL);
 
-    for (int i = 0; i < 100; ++i) {
-        logger.log("Testowy wpis do rotacji", LogLevel::INFO);
-    }
-    
-    bool changedFile = (logger.currectLogFilename() != (dirPath + logName));
+    for(int i = 0; i < 10; ++i)
+        logger.log("Testowa linijka numer: " + std::to_string(i), LogLevel::INFO);
 
-    EXPECT_TRUE(changedFile) << "Plik logów nie został poprawnie utworzony!";
+    bool changedFile = (logger.currectLogFilename() != logName);
+
+    EXPECT_TRUE(changedFile) << "Plik logow nie zostal poprawnie utworzony! Brak rotacji";
     logger.close();
     logger.setMaxSizeOfLog( 10000 ); //size 10kbytes for future tests
 }

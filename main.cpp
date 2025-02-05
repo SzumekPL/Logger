@@ -2,36 +2,19 @@
 
 int main() {
     Logger& logger = Logger::getInstance();
+    std::string dirPath = "./tests_dir/test0/";
+    std::string logName = "rotation_log.txt";
 
-    logger.setLogFile("./xyz.txt");
+    logger.setPathToLogDir(dirPath);
+    logger.setLogFile(logName);
+    logger.setMaxSizeOfLog(200); //size 4KBytes //default buffor for most systems is 4KB 
+    logger.setLogLevel(LogLevel::ALL);
 
-    logger.setLogLevel(LogLevel::INFO);
-    logger.log("Ustawiono poziom logowania na INFO 1", LogLevel::INFO);
-    logger.log("Start aplikacji 1", LogLevel::INFO);
-    logger.log("To jest ostrzeżenie! 1", LogLevel::WARNING);
-    logger.log("Wystąpił błąd krytyczny! 1", LogLevel::ERROR);
-    logger.log("Tryb debugowania 1", LogLevel::DEBUG);
-    
-    logger.setLogLevel(LogLevel::WARNING);
-    logger.log("Ustawiono poziom logowania na WARNING 2", LogLevel::WARNING);
-    logger.log("Start aplikacji 2", LogLevel::INFO);
-    logger.log("To jest ostrzeżenie! 2", LogLevel::WARNING);
-    logger.log("Wystąpił błąd krytyczny! 2", LogLevel::ERROR);
-    logger.log("Tryb debugowania 2", LogLevel::DEBUG);
+    for(int i = 0; i < 4001; ++i)
+        logger.log("Testowa linijka numer: " + std::to_string(i), LogLevel::INFO);
 
-    logger.setLogLevel(LogLevel::ERROR);
-    logger.log("Ustawiono poziom logowania na ERROR 3", LogLevel::ERROR);
-    logger.log("Start aplikacji 3", LogLevel::INFO);
-    logger.log("To jest ostrzeżenie! 3", LogLevel::WARNING);
-    logger.log("Wystąpił błąd krytyczny! 3", LogLevel::ERROR);
-    logger.log("Tryb debugowania 3", LogLevel::DEBUG);
-    
-    logger.setLogLevel(LogLevel::DEBUG);
-    logger.log("Ustawiono poziom logowania na DEBUG 4", LogLevel::DEBUG);
-    logger.log("Start aplikacji 4", LogLevel::INFO);
-    logger.log("To jest ostrzeżenie! 4", LogLevel::WARNING);
-    logger.log("Wystąpił błąd krytyczny! 4", LogLevel::ERROR);
-    logger.log("Tryb debugowania 4", LogLevel::DEBUG);
-    
+    bool changedFile = (logger.currectLogFilename() != logName);
+    std::cout << changedFile;
+
     return 0;
 }
