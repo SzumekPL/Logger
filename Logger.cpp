@@ -1,6 +1,4 @@
 #include "Logger.h"
-#include <ctime>
-#include <filesystem>
 
 Logger& Logger::getInstance() {
     static Logger instance;
@@ -70,6 +68,24 @@ void Logger::showOnlyOneLevel(LogLevel level)
     onlyOneLevel = true;
 }
 
+std::string getDate()
+{
+    std::time_t now = std::time(nullptr);
+    char timestamp[20];
+    std::strftime(timestamp, sizeof(timestamp), "%Y_%m_%d", std::localtime(&now));
+
+    return std::string( timestamp );
+}
+
+std::string getTime()
+{
+    std::time_t now = std::time(nullptr);
+    char timestamp[20];
+    std::strftime(timestamp, sizeof(timestamp), "%H:%M:%S", std::localtime(&now));
+
+    return std::string( timestamp );
+}
+
 std::string getTimestamp()
 {
     std::time_t now = std::time(nullptr);
@@ -77,6 +93,7 @@ std::string getTimestamp()
     std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
     return std::string( timestamp );
+
 }
 
 void Logger::setLogFormat(std::string pattern)
@@ -151,7 +168,7 @@ void Logger::log(const std::string& message, LogLevel level) {
         logFile << std::endl;
     }
     else{
-        std::cout << "I cannot write into file!!!";
+        std::cout << "I cannot write into file !!! \n";
     }
 
     rotateLogFile();
@@ -164,14 +181,14 @@ std::string Logger::currectLogFilename()
 
 std::string Logger::logFileNameGenerator()
 {
-    std::string timestamp = getTimestamp();
+    std::string date = getDate();
 
-    std::string logName = ("Log_" + std::string(timestamp) + "_" + std::to_string(suffix) + ".txt");
+    std::string logName = ("Log_" + std::string(date) + "_" + std::to_string(suffix) + ".txt");
 
     if(std::filesystem::exists(pathToLogDir + logName)) 
     {
         suffix++; 
-        logName = ("Log_" + std::string(timestamp) + "_" + std::to_string(suffix) + ".txt");
+        logName = ("Log_" + std::string(date) + "_" + std::to_string(suffix) + ".txt");
     }
     else 
     {
@@ -184,7 +201,7 @@ std::string Logger::logFileNameGenerator()
 void Logger::rotateLogFile()
 {
     if (!std::filesystem::exists(pathToLogDir + logFilename)) {
-        std::cout << pathToLogDir + logFilename << "doesnt exist";
+        std::cout << pathToLogDir + logFilename << "doesnt exist \n";
         return; // Nie ma pliku do rotacji
     }
 
@@ -198,12 +215,12 @@ void Logger::rotateLogFile()
         std::cout << e.what() << '\n';
     }
     
-    if (fileSize > 0) 
+    if (fileSize > maxSizeOfLogFile) 
     {
-        if(fileSize > maxSizeOfLogFile)
-        {
-            std::string newFilename = logFileNameGenerator();
-            setLogFile(newFilename); // Utwórz nowy log o oryginalnej nazwie
-        }
+        std::string newFilename = logFileNameGenerator();       
+        
+        logFile.close(); 
+        setLogFile(newFilename); // Utwórz nowy log o oryginalnej nazwie
+        
     }
 }

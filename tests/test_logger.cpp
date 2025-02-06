@@ -77,16 +77,18 @@ TEST(LoggerTest, LogRotation) {
 
     logger.setPathToLogDir(dirPath);
     logger.setLogFile(logName);
-    logger.setMaxSizeOfLog(200); //size 4KBytes //default buffor for most systems is 4KB 
+    logger.setMaxSizeOfLog(200); //size 200Bytes
     logger.setLogLevel(LogLevel::ALL);
 
     for(int i = 0; i < 10; ++i)
         logger.log("Testowa linijka numer: " + std::to_string(i), LogLevel::INFO);
 
     bool changedFile = (logger.currectLogFilename() != logName);
+    bool rotationFileExist = std::filesystem::exists(dirPath + logger.currectLogFilename());
 
-    EXPECT_TRUE(changedFile) << "Plik logow nie zostal poprawnie utworzony! Brak rotacji";
     logger.close();
+    EXPECT_TRUE(changedFile) << "Nie zmieniono nazwy pliku w programie";
+    EXPECT_TRUE(rotationFileExist) << "Nowy plik nie istnieje";
     logger.setMaxSizeOfLog( 10000 ); //size 10kbytes for future tests
 }
 

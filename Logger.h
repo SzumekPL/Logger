@@ -7,6 +7,8 @@
 #include <mutex>
 #include <string>
 #include <memory>
+#include <ctime>
+#include <filesystem>
 
 // Definiujemy poziomy logowania
 // NIE ZAPOMNIJ PO MODYFIKACJI SPRAWDZIĆ 
