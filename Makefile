@@ -2,7 +2,14 @@
 OS := $(shell uname -s)
 
 # Domyślne ustawienia (dla Linuxa)
-CXX = g++
+# Domyślny kompilator g++, ?= oznacza że można to edytować
+CXX ?= g++
+
+# Flaga CL=1 ustawia kompilator na clang
+ifeq ($(CL),1)
+    CXX = clang++
+endif
+
 CXXFLAGS = -std=c++17 -Wall -I /usr/local/include
 GTEST_LIBS = -L /usr/local/lib -lgtest -lgtest_main -pthread
 RM = rm -f
