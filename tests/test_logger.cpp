@@ -224,3 +224,40 @@ TEST(LoggerTest, setMoreLogFiles) {
     EXPECT_TRUE(foundInfo) << "Info powinno byc zapisane!";
     EXPECT_TRUE(foundInfo2) << "Info powinno byc zapisane!";
 }
+
+// Test 8: Sprawdzenie dynamicznej zmiany patternu
+TEST(LoggerTest, dynamicPatternChange) {
+    Logger& logger = Logger::getInstance();
+    std::string dirPath = "./tests_dir/test8/";
+    std::string logName = "pattern_log.txt";
+
+    logger.setPathToLogDir(dirPath);
+    logger.setLogFile(logName);
+    logger.setLogLevel(LogLevel::ALL);
+
+    logger.setLogFormat("{level} : {message}");
+    logger.log("Test szablonu 1", LogLevel::WARNING);
+
+    logger.setLogFormat("[{time}] : {message} [{level}]");
+    logger.log("Test szablonu 2", LogLevel::WARNING);
+
+    logger.close();
+
+    std::ifstream logFile(dirPath + logName);
+    std::string line;
+    
+    if (!logFile.is_open()) {
+        FAIL() << "Nie udało się otworzyć pliku logu!";
+    }
+
+    bool foundPattern1 = false, foundPattern2 = false, foundPattern3 = false;
+    while (std::getline(logFile, line)) {
+        if (line.find("WARNING : Test szablonu 1") != std::string::npos) foundPattern1 = true;
+        if (line.find("Test szablonu 2") != std::string::npos) foundPattern2 = true;
+        if (line.find("] : Test szablonu 2 [WARNING]") != std::string::npos) foundPattern3 = true;
+    }
+
+    EXPECT_TRUE(foundPattern1) << "Nie znaleziono pierwszego wpisu!";
+    EXPECT_TRUE(foundPattern2) << "Nie znalezio drugiego wpisu";
+    EXPECT_TRUE(foundPattern3) << "Nie zmieniono patternu";
+}
