@@ -70,4 +70,6 @@ lub
 make test CXX=clang++
 ```
 
+Aby testy kompilowały się z użyciem clang++ należy skompilować googletests z użyciem kompilatora clang++ ([issue#2](https://github.com/SzumekPL/Logger/issues/2))
+
 Możesz przy użyciu CXX=kompilator wybrać dowolny zainstalowany kompilator, nie ma gwarancji że będzie działało!
